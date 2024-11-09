@@ -1,5 +1,6 @@
 <?php
 
+use Filament\PanelProvider;
 use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\ServiceProvider;
 
@@ -163,12 +164,14 @@ return [
         /*
          * Application Service Providers...
          */
+//        App\Providers\Filament\PanelProvider::class,
         App\Providers\AppServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\Filament\AdminPanelProvider::class,
         App\Providers\RouteServiceProvider::class,
+        App\Providers\Filament\AdminPanelProvider::class,
     ])->toArray(),
 
     /*
