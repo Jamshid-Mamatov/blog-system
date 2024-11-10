@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Blog;
+use App\Models\Comment;
 use Illuminate\Http\Request;
 
 class CommentController extends Controller
@@ -25,9 +27,19 @@ class CommentController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request,string $blogId)
     {
-        //
+        $request->validate([
+            'content' => 'required',
+        ]);
+
+        $blog = Blog::find($blogId);
+        $comment= new Comment();
+        $comment->content=$request->content;
+        $comment->user_id=auth()->id();
+        $comment->blog_id=$blog->id;
+        $comment->save();
+        return redirect()->route('blog.show', $blogId)->with('success', 'Comment posted successfully.');
     }
 
     /**
@@ -35,7 +47,8 @@ class CommentController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $blog=Blog::with('comments')->find($id);
+        return view('blog.show', compact('blog'));
     }
 
     /**
@@ -43,7 +56,8 @@ class CommentController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $blog= Blog::with('comments')->find($id);
+        return view('blog.edit', compact('blog'));
     }
 
     /**

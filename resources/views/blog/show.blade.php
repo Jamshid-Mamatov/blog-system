@@ -6,7 +6,7 @@
         <div class="heading-blog">
             {{ $blog->title }}
         </div>
-        <img src="{{ asset('assets/img/' . $blog->image) }}" class="img-responsive img-rounded" alt="{{ $blog->title }}" />
+        <img src="{{ asset('storage/' . $blog->image_path) }}" class="img-responsive img-rounded" alt="{{ $blog->title }}" />
 
         <div class="blog-info">
             <span class="label label-primary">Posted on {{ $blog->created_at->format('jS F Y') }}</span>
@@ -31,6 +31,13 @@
         </form>
     @endif
 
+    <br>
+    <br>
+    <form action="{{ route('comment.store', $blog->id) }}" method="POST">
+        @csrf
+        <textarea name="content" class="form-control" placeholder="Add your comment here..." required></textarea>
+        <button type="submit" class="btn btn-primary mt-2">Post Comment</button>
+    </form>
     <!-- Comments Section -->
     <h3><strong>Recent Comments:</strong></h3>
     <hr />
@@ -38,11 +45,14 @@
         @forelse ($blog->comments as $comment)
             <li class="media">
                 <a class="pull-left" href="#">
-                    <img class="media-object img-circle" src="{{ asset('assets/img/' . ($comment->user->avatar ?? 'user.png')) }}" />
+                    <img class="media-object img-circle" src="{{ asset('storage/' . ($comment->user->avatar ?? 'user.png')) }}" />
                 </a>
                 <div class="media-body">
-                    <h4 class="media-heading">{{ $comment->user->name ?? 'Guest' }}</h4>
+                    <h4 class="media-heading">{{ $comment->user->name ?? 'Guest' }} </h4>
+                    <span>{{ $comment->created_at }}</span>
+                    <br>
                     <p>{{ $comment->content }}</p>
+
 
                     <!-- Nested Comments -->
                     @if($comment->replies)

@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\BlogController;
+use App\Http\Controllers\CommentController;
+use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -15,21 +17,19 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [BlogController::class, 'index']);
-//Route::get('/home', [BlogController::class, 'index'])->name('home'); // Custom route
+Route::get('/', [HomeController::class, 'index'])->name('index')->middleware('guest');
+//Route::get('/', [BlogController::class, 'index']);
 
 
 Route::get('/blog', [BlogController::class, 'index'])->name('blog.index');
-//Route::get('/user', function () {
-//    return view('welcome');
-//});
+
 
 Route::resource('blog', BlogController::class)->middleware('auth');
-//Route::middleware('guest')->group(function () {
-//    Route::get('/login', fn() => redirect('/user'));
-//    Route::get('/register', fn() => redirect('/user'));
-//});
+
+Route::post('/blog/{blogId}/comment', [CommentController::class, 'store'])->name('comment.store');
+
+
+
 
 Auth::routes();
 
-//Route::get('/home', [App\Http\Controllers\HomeController::class, 'welcome'])->name('home');
