@@ -32,36 +32,32 @@
         </div>
 
         <div class="collapse navbar-collapse" id="navbarContent">
-            <ul class="navbar-nav ms-auto">
+            <ul class="nav navbar-nav navbar-right">
                 <!-- Authentication Links -->
                 @guest
                     @if (Route::has('login'))
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                        <li>
+                            <a href="{{ '/user' }}"><i class="fa fa-sign-in"></i> {{ __('Login') }}</a>
                         </li>
                     @endif
 
                     @if (Route::has('register'))
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                        <li>
+                            <a href="{{ '/user' }}"><i class="fa fa-user-plus"></i> {{ __('Register') }}</a>
                         </li>
                     @endif
                 @else
-                    <li class="dropdown navbar-right">
-                        <a id="navbarDropdown" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                            {{ Auth::user()->name }} <span class="caret"></span>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                            <i class="fa fa-user"></i> {{ Auth::user()->name }} <span class="caret"></span>
                         </a>
-
                         <ul class="dropdown-menu" role="menu">
                             <li>
-                                <a href="{{ route('logout') }}"
-                                   onclick="event.preventDefault();
-                         document.getElementById('logout-form').submit();">
-                                    {{ __('Logout') }}
+                                <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                    <i class="fa fa-sign-out"></i> {{ __('Logout') }}
                                 </a>
                             </li>
                         </ul>
-
                         <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                             @csrf
                         </form>

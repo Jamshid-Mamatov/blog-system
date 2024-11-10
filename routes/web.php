@@ -20,12 +20,15 @@ Route::get('/', [BlogController::class, 'index']);
 
 
 Route::get('/blog', [BlogController::class, 'index'])->name('blog.index');
-Route::get('/user', function () {
-    return view('welcome');
-});
+//Route::get('/user', function () {
+//    return view('welcome');
+//});
 
 Route::resource('blog', BlogController::class);
-
+//Route::middleware('guest')->group(function () {
+//    Route::get('/login', fn() => redirect('/user'));
+//    Route::get('/register', fn() => redirect('/user'));
+//});
 
 Auth::routes();
 
