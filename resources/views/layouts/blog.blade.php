@@ -28,7 +28,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/">Blog</a>
+            <a class="navbar-brand" href="/blog">Blog</a>
         </div>
 
         <div class="collapse navbar-collapse" id="navbarContent">
@@ -73,6 +73,16 @@
     <div class="container">
         <div class="row">
             <div class="col-md-9">
+
+                <form action="{{ route('blog.search') }}" method="GET" class="navbar-form navbar-left">
+                    <div class="input-group">
+                        <input type="text" name="query" class="form-control" placeholder="Search posts...">
+                        <span class="input-group-btn">
+                        <button type="submit" class="btn btn-primary">Search</button>
+                        </span>
+                    </div>
+                </form>
+
                 @yield('content')
             </div>
         </div>

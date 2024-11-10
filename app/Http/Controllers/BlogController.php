@@ -116,4 +116,15 @@ class BlogController extends Controller
 
         return redirect()->route('blog.index')->with('success', 'Blog post deleted');
     }
+
+    public function search(Request $request)
+    {
+        $query = $request->input('query');
+
+        $blogs=Blog::where('title', 'LIKE', "%$query%")
+            ->orWhere('body', 'LIKE', "%$query%")
+            ->paginate(10);
+
+        return view('blog.index', compact('blogs'))->with('query', $query);
+    }
 }

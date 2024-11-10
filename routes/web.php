@@ -28,7 +28,7 @@ Route::resource('blog', BlogController::class)->middleware('auth');
 
 Route::post('/blog/{blogId}/comment', [CommentController::class, 'store'])->name('comment.store');
 
-
+Route::get('/search', [BlogController::class, 'search'])->name('blog.search');
 
 
 Auth::routes();
