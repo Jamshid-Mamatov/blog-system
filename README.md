@@ -56,3 +56,22 @@ php artisan db:seed
 
 php artisan serve
 ```
+## Screenshots
+
+### 1. Blog Website Overview
+![Blog Website Overview](storage/readme_images/blog-overview.png)
+
+### 2. Search Functionality
+![Search Functionality](storage/readme_images/search.png)
+
+### 3. Create -Blog
+![Search Functionality](storage/readme_images/create_blog.png)
+
+### 4. Individual Blog
+![Search Functionality](storage/readme_images/individual-blog.png)
+
+### 5. Comments Section
+![Search Functionality](storage/readme_images/comments-section.png)
+
+### 6. User Registration
+![Search Functionality](storage/readme_images/user-registration.png)

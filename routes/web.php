@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [HomeController::class, 'index'])->name('index')->middleware('guest');
-//Route::get('/', [BlogController::class, 'index']);
+Route::get('/home', [BlogController::class, 'index']);
 
 
 Route::get('/blog', [BlogController::class, 'index'])->name('blog.index');
