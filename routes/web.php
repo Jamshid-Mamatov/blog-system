@@ -24,7 +24,7 @@ Route::get('/blog', [BlogController::class, 'index'])->name('blog.index');
 //    return view('welcome');
 //});
 
-Route::resource('blog', BlogController::class);
+Route::resource('blog', BlogController::class)->middleware('auth');
 //Route::middleware('guest')->group(function () {
 //    Route::get('/login', fn() => redirect('/user'));
 //    Route::get('/register', fn() => redirect('/user'));

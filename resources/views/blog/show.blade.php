@@ -22,6 +22,14 @@
             {!! $blog->body !!}
         </div>
     </div>
+    @if (auth()->check() && auth()->user()->id==$blog->user_id)
+        <a href="{{ route('blog.edit', $blog->id) }}" class="btn btn-primary">Edit</a>
+        <form action="{{ route('blog.destroy', $blog->id) }}" method="POST" style="display:inline;">
+            @csrf
+            @method('DELETE')
+            <button type="submit" class="btn btn-danger">Delete</button>
+        </form>
+    @endif
 
     <!-- Comments Section -->
     <h3><strong>Recent Comments:</strong></h3>

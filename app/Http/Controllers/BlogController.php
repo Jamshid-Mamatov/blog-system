@@ -4,16 +4,21 @@ namespace App\Http\Controllers;
 
 use App\Models\Blog;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class BlogController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     public function index()
     {
         $blogs = Blog::latest()->paginate(10);
-        return view('home', compact('blogs'));
+        return view('blog.index', compact('blogs'));
     }
 
     /**
@@ -21,7 +26,7 @@ class BlogController extends Controller
      */
     public function create()
     {
-        //
+        return view('blog.create');
     }
 
     /**
@@ -29,7 +34,28 @@ class BlogController extends Controller
      */
     public function store(Request $request)
     {
-        //
+//        dd($request->all());
+        $request->validate([
+            'title' => 'required',
+            'body' => 'required',
+            'image_path'=>'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'slug' => 'required|unique:blogs,slug',
+        ]);
+        $imagePath=null;
+        if($request->hasFile('image_path')){
+            $imagePath = $request->file('image_path')->store('assets/img', 'public');
+        }
+//        dd($imagePath);
+
+        Blog ::create([
+            'title'=>$request->title,
+            'body'=>$request->body,
+            'image_path'=>$imagePath,
+            'user_id'=>Auth::id(),
+            'slug'=>$request->slug
+        ]);
+
+        return redirect()->route('blog.index')->with('success', 'Blog created successfully.');
     }
 
     /**
@@ -44,9 +70,17 @@ class BlogController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit( $id)
     {
         //
+
+        $blog= Blog::findOrFail($id);
+//        dd($blog);
+        if($blog->user_id != Auth::id()){
+            return redirect()->route('blog.index')->with('error', 'Unauthorized Access');
+        }
+
+        return view('blog.edit', compact('blog'));
     }
 
     /**
@@ -54,7 +88,16 @@ class BlogController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $blog = Blog::findOrFail($id);
+
+        // Check if the user is the owner of the post
+        if ($blog->user_id != auth()->id()) {
+            return redirect()->route('blog.index')->with('error', 'Unauthorized access');
+        }
+
+        $blog->update($request->all());
+        return redirect()->route('blog.index')->with('success', 'Blog updated successfully.');
+
     }
 
     /**
@@ -62,6 +105,15 @@ class BlogController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $blog = Blog::findOrFail($id);
+
+        // Check if the user is the owner of the post
+        if ($blog->user_id != auth()->id()) {
+            return redirect()->route('blog.index')->with('error', 'Unauthorized access');
+        }
+
+        $blog->delete();
+
+        return redirect()->route('blog.index')->with('success', 'Blog post deleted');
     }
 }
