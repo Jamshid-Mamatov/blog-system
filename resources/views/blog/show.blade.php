@@ -1,5 +1,5 @@
 
-@extends('layouts.app')
+@extends('layouts.blog')
 
 @section('content')
     <div class="blog-main">

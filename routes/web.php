@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\BlogController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,16 +15,18 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-Route::get('/home', [BlogController::class, 'index'])->name('home'); // Custom route
+Route::get('/', [BlogController::class, 'index']);
+//Route::get('/home', [BlogController::class, 'index'])->name('home'); // Custom route
 
 
 Route::get('/blog', [BlogController::class, 'index'])->name('blog.index');
 Route::get('/user', function () {
-    return view('user.index');
+    return view('welcome');
 });
 
 Route::resource('blog', BlogController::class);
 
+
+Auth::routes();
+
+//Route::get('/home', [App\Http\Controllers\HomeController::class, 'welcome'])->name('home');
